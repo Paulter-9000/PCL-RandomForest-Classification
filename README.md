@@ -1,16 +1,20 @@
 # PCL-RandomForest-Classification
 This package explaines how to implement Random Forest algorithm for handheld based LiDAR point cloud data in urban area.
 
-# Installation and Run
-Run the `src/classification.R` file. It has the `data` file hardcoded from the `data` directory. 
+# HOW TO RUN
+Run the `classification.R` file. It has the `data` file hardcoded from the `data` directory. 
 
 The data is from: https://hri.fi/data/en_GB/dataset/helsingin-laserkeilausaineistot
+
+It takes a long time to process the data depending on your computing device.
+
+## NOTES
 
 ### Original Author
 
 Dr. Zeybek's fine work at: https://github.com/mzeybek583/PCL-RandomForest-Classification
 
-### Note 
+### Changing the source code 
 You need a `.laz` or `.laz` file that has RGB channels (aka, it needs to be "colorized"). You can check this by looking at the output of the `print()` method after you load a lidar point cloud file. 
 
 ### If you want to create your own colorized Lidar Point Cloud
