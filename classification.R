@@ -57,7 +57,7 @@ setwd(".")
 # Note that x, y, z are implicit and always loaded. 'xyzia' is equivalent to 'ia'.
 
 #change path
-data1 <- readLAS(files = "LAS_data/USGS_Lidar_Point_Cloud_NY_CMPG_2013_18TWL850135_LAS_2015.laz")
+data1 <- readLAS(files = "data/rgb_672497a.laz")
 
 # Colorized Lidar (with RGB channels) only exists in LAS versions 1.4+
 # @see https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/colorize-las.htm

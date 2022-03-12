@@ -11,5 +11,9 @@ References:
 
 - Helsinki point cloud—Overview. (n.d.). Retrieved March 12, 2022, from https://www.arcgis.com/home/item.html?id=f9eeed099fba4eecb6531c4fdde9369d
 
+- https://hri.fi/data/en_GB/dataset/helsingin-laserkeilausaineistot
+
+- https://kartta.hel.fi/?link=aw4R8i
+
 
 
