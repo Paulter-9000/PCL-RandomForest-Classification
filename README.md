@@ -6,14 +6,14 @@ Run the `src/classification.R` file. It has the `data` file hardcoded from the `
 
 The data is from: https://hri.fi/data/en_GB/dataset/helsingin-laserkeilausaineistot
 
-## Original Author
+### Original Author
 
 Dr. Zeybek's fine work at: https://github.com/mzeybek583/PCL-RandomForest-Classification
 
-## Note 
+### Note 
 You need a `.laz` or `.laz` file that has RGB channels (aka, it needs to be "colorized"). You can check this by looking at the output of the `print()` method after you load a lidar point cloud file. 
 
-## If you want to create your own colorized Lidar Point Cloud
+### If you want to create your own colorized Lidar Point Cloud
 
 Here's a lead on how to do this: 
 
