@@ -25,14 +25,48 @@ library(beepr)
 
 tic()
 #change path
-setwd("E:/hazirlik/R/")
+setwd(".")
 
 
 # Read Data ---------------------------------------------------------------
 
+
+# NOTE:   For `readLAS`: The following supported entries are valid. 
+#
+#         t - gpstime, 
+#         a - scan angle, 
+#         i - intensity, 
+#         n - number of returns, 
+#         r - return number, 
+#         c - classification, 
+#         s - synthetic flag, 
+#         k - keypoint flag, 
+#         w - withheld flag, 
+#         o - overlap flag (format 6+), 
+#         u - user data, 
+#         p - point source ID, 
+#         e - edge of flight line flag, 
+#         d - direction of scan flag, 
+#         R - red channel of RGB color, 
+#         G - green channel of RGB color, 
+#         B - blue channel of RGB color, 
+#         N - near-infrared channel, 
+#         C - scanner channel (format 6+), 
+#         W - Full waveform. 
+#         Also numbers from 1 to 9 for the extra bytes data numbers 1 to 9. 0 enables all extra bytes to be loaded and '*' is the wildcard that enables everything to be loaded from the LAS file. 
+# Note that x, y, z are implicit and always loaded. 'xyzia' is equivalent to 'ia'.
+
 #change path
-data1 <- readLAS(files = "/TRDizin/hazirlik/TBC_classification/classification_1m.las")
-sprintf("Las verisi okundu", toc())
+data1 <- readLAS(files = "LAS_data/USGS_Lidar_Point_Cloud_NY_CMPG_2013_18TWL850135_LAS_2015.laz")
+
+# Colorized Lidar (with RGB channels) only exists in LAS versions 1.4+
+# @see https://pro.arcgis.com/en/pro-app/latest/tool-reference/3d-analyst/colorize-las.htm
+#
+# Check the LAS version in the following print statement
+names(data1)
+print(data1)
+sprintf("Las data read", toc())
+las_check(data1)
 
 plot(data1, color= "Classification")
 data <- cbind(data1@data$X,data1@data$Y,data1@data$Z)
@@ -109,7 +143,8 @@ for (i in 1:nrow(pp)) {
   anisotropy[i] = (d[1]-d[3])/d[1]
 }
 
-sprintf("Eigenvalues hesaplandi", toc())
+sprintf("Eigenvalues calculated", toc())
+beep()
 
 ###### Flipping normals
 
@@ -130,7 +165,7 @@ data1@data$B2 <- bit8(data1@data$B)
 
 write.csv(cbind(pp,normals,data1@data$R2, data1@data$G2, data1@data$B2, 
                 curvature,omnivariance,planarity,linearity,surf_var,anisotropy),file = "pcl_normals.txt")
-sprintf("Eigenvalues dosyasi export edildi", toc())
+sprintf("Eigenvalues file exported", toc())
 
 
 
@@ -141,7 +176,7 @@ sprintf("Eigenvalues dosyasi export edildi", toc())
 #data1 <- readLAS(files = "/hazirlik/TBC_classification/classification/classification.las")
 #sprintf("Las verisi okundu", toc())
 dtm <- grid_terrain(data1,  algorithm = knnidw(k = 6L, p = 2),res = 1)
-las <- lasnormalize(data1, dtm)
+las <- normalize_height (data1, dtm)
 plot(las)
 writeLAS(las, file = "normalized.las")
 
@@ -195,8 +230,11 @@ control <- trainControl(method = "repeatedcv",number = 10,repeats=3,search='grid
 metric <- "Accuracy"
 tunegrid <- expand.grid(.mtry = (1:13)) 
 set.seed(7)
-fit.rf <- train(Class~ nx+ny+nz+R+G+B+Curvature+Omnivariance+Planarity+Linearity+Surface_Variance+Anisotropy+AGL,data = na.omit(dataset), method = "rf",
-               metric = metric, trControl = control,tuneGrid = tunegrid)
+fit.rf <- train(Class~ nx+ny+nz+R+G+B+Curvature+Omnivariance+Planarity+Linearity+Surface_Variance+Anisotropy+AGL,
+               data = na.omit(dataset), method = "rf",
+               metric = metric, 
+               trControl = control,
+               tuneGrid = tunegrid)
 #fit.rf <- train(Class~ nz+Omnivariance + Planarity, data = na.omit(dataset), method = "rf",
 #                metric = metric, trControl = control)
 stopCluster(cluster)
