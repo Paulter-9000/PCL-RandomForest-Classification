@@ -242,7 +242,7 @@ registerDoSEQ()
 plot(fit.rf$finalModel)
 summary(fit.rf)
 print(fit.rf)
-sprintf("Train islemi bitti", toc())
+sprintf("Train process finished", toc())
 
 ##### Make Predictions #######
 predictions <- predict(fit.rf, validation)
@@ -273,7 +273,7 @@ export$ID <- NULL
 write.csv(export, "./finalPCL.txt")
 
 beep()
-sprintf("Program bitti", toc())
+sprintf("The program is over", toc())
 
 
 # Accuracy Assessments ----------------------------------------------------
@@ -299,6 +299,6 @@ p<-ggplot(data=aa, aes(x=x, y=y)) +
   xlab("Features")+ ylab("Variable Importance (%)")
 p
 
-plot(var, top = 13, xlab =" Önem Derecesi (%)", ylab= "Özellik")
+plot(var, top = 13, xlab =" Importance level (%)", ylab= "Feature")
 
 
